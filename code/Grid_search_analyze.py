@@ -57,14 +57,12 @@ make_heatmap(results, valname = 'mean_fit_time', fmt = '.2f')
 
 # This is good for non-sensitive data, such as training time. For score, we need to see standard deviations, and this we cannot do with this plot.
 
-
 make_heatmap(results, valname = 'mean_test_score', fmt = '.5f')
 
 
 # ## 3. Labelled scatterplot
 #
 # Let us try something less fancy, but more useful.
-
 
 means = ['mean_fit_time', 'mean_test_score']
 stds = [s.replace('mean', 'std') for s in means]
@@ -75,6 +73,7 @@ results['params'] = results.apply(lambda row : 'alpha: {alpha:.1E}, sizes: {hidd
 
 # We sort values by mean score rank
 # results['mean_test_score'] = - results['mean_test_score']
+
 results.sort_values(by = ['rank_test_score'], ascending = True, inplace = True)
 results
 
@@ -93,3 +92,4 @@ for subax, i in zip(ax, range(len(means))):
     subax.set_yticklabels(results['params'])
     subax.grid(color = 'k', linestyle = '-', linewidth = 0.2, axis = 'y')
     subax.set_xlabel(means[i])
+
