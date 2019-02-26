@@ -2,15 +2,15 @@
 # coding: utf-8
 
 # # Toy neural network example
-# 
-# We train a neural network giving for u in <0,1> a point (x,y) with coordinates 
-# 
+#
+# We train a neural network giving for u in <0,1> a point (x,y) with coordinates
+#
 # $x = cos(2\pi u)$
-# 
+#
 # $y = sin(2\pi u)$
-# 
-# that is, a point on a unit circle. The network will work as a random "transformer", transforming a random u in <0,1> to a random point on a unit circle. 
-# 
+#
+# that is, a point on a unit circle. The network will work as a random "transformer", transforming a random u in <0,1> to a random point on a unit circle.
+#
 # # Tasks:
 # ### 1. Study the code.
 # There are several things that can be new:
@@ -18,31 +18,31 @@
 # - pandas dataframes: notice how we can pack several arrays into a data table - a pandas DataFrame.
 # - matplotlib plots: notice how simply we plot things, and
 # - seaborn plots that add some more plotting functionality.
-# 
+#
 # ### 2. Study the neural network.
 # - Training data. To train a neural network, we have to have a proper sample of training data. In this case, it is very simple to generate them. See what happens when you use a smaller or larger training sample.
 # - Hyperparameters. We have some freedom in selecting how the network looks (sizes of hidden layers) and how we train it. Look into scikit-learn documentation (google "scikit learn MLPRegressor") and experiment with various combinations of hyperparameters. Optimize training data size and hyperparameters to achieve best precision.
-# Rules for hidden layers: 
-# (i) In theory, a neural network with a single layer can represent any mapping between inputs and outputs (if sufficiently large). 
-# (ii) If the problem is strongly non-linear, then a two-layer network can be easier to train. 
+# Rules for hidden layers:
+# (i) In theory, a neural network with a single layer can represent any mapping between inputs and outputs (if sufficiently large).
+# (ii) If the problem is strongly non-linear, then a two-layer network can be easier to train.
 # (iii) More than two hidden layers are usually unnecessary.
-# 
+#
 # ### 3. Investigate the problem.
 # We need a surprisingly large network and a lot of training data to make the example work.
-# On the other hand, the training is fairly fast. 
-# 
+# On the other hand, the training is fairly fast.
+#
 # A. Create a network that will produce density proportional to $u(1-u)$ on the unit circle (rather than uniform)
-# 
+#
 # B. (DONE) Create a network that will produce uniform density on an ellipse.
-# 
+#
 # C. Our network has a single input, u. Try to add some orthogonal polynomials (Legendre or Chebyshev) as additional inputs and examine how such networks train.
-# 
-# D. Also, try to extend the training interval for u from <0,1> to some <-d,1+d>. Error is located mostly near 0 and 1, so let us better teach periodicity to the network. 
-# 
-# E. Optimize network parameters and plot optimization results. 
+#
+# D. Also, try to extend the training interval for u from <0,1> to some <-d,1+d>. Error is located mostly near 0 and 1, so let us better teach periodicity to the network.
+#
+# E. Optimize network parameters and plot optimization results.
 
 # ## 0. Includes
-# Note: 
+# Note:
 # We can select an alias for the namespace of a particular packages using the "as" clause. However, some aliases are used generally, np for numpy, pd for pandas, plt for matplotlib.pyplot, sns for seaborn. It is not wise to change that.
 
 # In[1]:
@@ -50,7 +50,6 @@
 
 import numpy as np
 import pandas as pd
-get_ipython().magic('matplotlib inline')
 from matplotlib import pyplot as plt
 from scipy.stats import uniform
 from sklearn.neural_network import MLPRegressor
@@ -69,7 +68,7 @@ import seaborn as sns
 
 def make_circle_data(n_samples = 100, overlap = 0.0):
     """Creates pandas dataframe with columns u, x, y, such that u ~ U[0,1], x = cos(2*pi*u), y = sin(2*pi*u)."""
-    u = uniform.rvs(-overlap,1+overlap,n_samples) 
+    u = uniform.rvs(-overlap,1+overlap,n_samples)
     x = np.cos(2*np.pi*u)
     y = np.sin(2*np.pi*u)
     return pd.DataFrame({'u':u, 'x':x, 'y':y})
@@ -198,8 +197,8 @@ grid_results
 
 
 # ## 5. Save grid search results
-# We had best do the plotting in a separate notebook. Grid optimization may take long and we do not want to repeat it if we happen to modify the data. 
-# 
+# We had best do the plotting in a separate notebook. Grid optimization may take long and we do not want to repeat it if we happen to modify the data.
+#
 # We do just a single modification to the dataframe before saving: unpack the hidden layer size parameter and rename the column appropriately.
 
 # #### 5.1. Extract layer size from the "param_hidden_layer_sizes" column and rename the column
@@ -216,4 +215,3 @@ grid_results.head()
 
 
 grid_results.to_json('../data/grid_results.json')
-

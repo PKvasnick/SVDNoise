@@ -2,21 +2,21 @@
 # coding: utf-8
 
 # # Toy neural network example
-# 
-# We train a neural network giving for u in <0,1> a point (x,y) with coordinates 
-# 
+#
+# We train a neural network giving for u in <0,1> a point (x,y) with coordinates
+#
 # $x = cos(2\pi u)$
-# 
+#
 # $y = sin(2\pi u)$
-# 
-# that is, a point on a unit circle. The network will work as a random "transformer", transforming a random u in <0,1> to a random point on a unit circle. 
-# 
+#
+# that is, a point on a unit circle. The network will work as a random "transformer", transforming a random u in <0,1> to a random point on a unit circle.
+#
 # We trained the network in the Grid_search_cycle notebook and saved grid optimization data to a json file.
-# 
+#
 # Here, we will retrieve and analyze the data.
-# 
-# I will show a zoo of various plot styles using matplotlib and seaborn packages. 
-# 
+#
+# I will show a zoo of various plot styles using matplotlib and seaborn packages.
+#
 # # Tasks:
 # ### 1. Study the code.
 # There are several things that can be new:
@@ -24,10 +24,10 @@
 # - pandas dataframes: notice how we can pack several arrays into a data table - a pandas DataFrame.
 # - matplotlib plots: notice how simply we plot things, and
 # - seaborn plots that add some more plotting functionality.
-# 
+#
 # ### 2. Analyze the data.
-# - Make a comprehensive package of plots and tables that we can use for other similar trainings. 
-# 
+# - Make a comprehensive package of plots and tables that we can use for other similar trainings.
+#
 
 # ## 0. Includes
 
@@ -36,7 +36,6 @@
 
 import numpy as np
 import pandas as pd
-get_ipython().magic('matplotlib inline')
 from matplotlib import pyplot as plt
 import seaborn as sns
 
@@ -60,7 +59,7 @@ def make_heatmap(d, xname = 'param_hidden_layer_size', yname = 'param_alpha', va
     '''Plot a heatmap using columns of dataframe d.'''
     table = pd.pivot_table(d, values = valname, index = yname, columns = xname, aggfunc = np.mean)
     sns.heatmap(table, annot = True, fmt = fmt)
-    
+
 make_heatmap(results, valname = 'mean_fit_time', fmt = '.2f')
 
 
@@ -73,7 +72,7 @@ make_heatmap(results, valname = 'mean_test_score', fmt = '.5f')
 
 
 # ## 3. Labelled scatterplot
-# 
+#
 # Let us try something less fancy, but more useful.
 
 # In[5]:
@@ -115,4 +114,3 @@ for subax, i in zip(ax, range(len(means))):
     subax.set_yticklabels(results['params'])
     subax.grid(color = 'k', linestyle = '-', linewidth = 0.2, axis = 'y')
     subax.set_xlabel(means[i])
-
