@@ -31,9 +31,6 @@
 
 # ## 0. Includes
 
-# In[1]:
-
-
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
@@ -42,17 +39,12 @@ import seaborn as sns
 
 # ## 1. Retrieve data
 
-# In[2]:
-
-
 results = pd.read_json('../data/grid_results.json')
 results.head()
 
 
 # ## 2. Fancy table - seaborn heatmap
 # We just cross-tabulate and colour fields according to values.
-
-# In[3]:
 
 
 def make_heatmap(d, xname = 'param_hidden_layer_size', yname = 'param_alpha', valname = '', fmt = 'd'):
@@ -65,8 +57,6 @@ make_heatmap(results, valname = 'mean_fit_time', fmt = '.2f')
 
 # This is good for non-sensitive data, such as training time. For score, we need to see standard deviations, and this we cannot do with this plot.
 
-# In[4]:
-
 
 make_heatmap(results, valname = 'mean_test_score', fmt = '.5f')
 
@@ -75,29 +65,18 @@ make_heatmap(results, valname = 'mean_test_score', fmt = '.5f')
 #
 # Let us try something less fancy, but more useful.
 
-# In[5]:
-
 
 means = ['mean_fit_time', 'mean_test_score']
 stds = [s.replace('mean', 'std') for s in means]
 
 
-# In[6]:
-
-
 results['params'] = results.apply(lambda row : 'alpha: {alpha:.1E}, sizes: {hidden_layer_sizes}'.format(**row.params), axis = 1)
-
-
-# In[7]:
 
 
 # We sort values by mean score rank
 # results['mean_test_score'] = - results['mean_test_score']
 results.sort_values(by = ['rank_test_score'], ascending = True, inplace = True)
 results
-
-
-# In[8]:
 
 
 # Subplot frame
